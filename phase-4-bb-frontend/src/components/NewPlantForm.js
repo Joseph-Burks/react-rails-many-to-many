@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dropdown, Form, Segment, Header } from 'semantic-ui-react';
+import { Button, Form, Segment, Header } from 'semantic-ui-react';
 
 export default class NewPlantForm extends React.Component {
 	state = {
@@ -9,6 +9,7 @@ export default class NewPlantForm extends React.Component {
 	};
 
 	handleChange = e => {
+		
 		this.setState({
 			[e.target.name]: e.target.value,
 		});
@@ -17,21 +18,6 @@ export default class NewPlantForm extends React.Component {
 	handleSubmit = e => {
 		e.preventDefault();
 		this.props.addNewPlant(this.state);
-	};
-
-	bedOptions = () => {
-		let beds = [];
-		if (this.props.beds.length > 0) {
-			this.props.beds.forEach(bed => {
-				let bedObj = {
-					key: bed.name,
-					text: bed.name,
-					value: bed.id,
-				};
-				beds.push(bedObj);
-			});
-		}
-		return beds;
 	};
 
 	render() {
@@ -48,14 +34,11 @@ export default class NewPlantForm extends React.Component {
 						<input name='image' placeholder='Plant Image' />
 					</Form.Field>
 					<Form.Field>
-						<label>Bed</label>
-						<Dropdown
-							placeholder='Select Bed'
-							name='bed'
-							fluid
-							selection
-							options={this.bedOptions()}
-						/>
+						<select name='bed_id'>
+							{this.props.beds.map(bed => {
+								return <option value={bed.id}>{bed.name}</option>
+							})}
+						</select>
 					</Form.Field>
 					<Button type='submit'>Submit</Button>
 				</Form>
